@@ -1,0 +1,18 @@
+## Build an executable JAR
+You can run the application from the command line with Maven. 
+You can also build a single executable JAR file that contains all the necessary dependencies, classes, and resources and run that. 
+
+Building an executable jar makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
+
+With Maven, you can run the application by using 
+
+  ./mvnw spring-boot:run
+
+Alternatively, you can build the JAR file with 
+
+  ./mvnw clean package 
+
+and then run the JAR file, as follows:
+
+  java -jar target/restful-web-services-0.0.1-SNAPSHOT.jar
+

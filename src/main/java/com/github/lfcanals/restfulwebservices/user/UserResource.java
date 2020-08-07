@@ -6,6 +6,8 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,11 +32,19 @@ public class UserResource {
 	}
 
 	@GetMapping("/users/{id}")
-	public User retrieveUser(@PathVariable int id) {
+	public EntityModel<User> retrieveUser(@PathVariable int id) {
 		User user = service.findOne(id);
 
 		if(user==null) throw new UserNotFoundException("id-"+ id);
-		return user;
+
+    EntityModel<User> resource = new EntityModel<>(user);
+
+    WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
+        WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
+
+    resource.add(linkTo.withRel("all-users"));
+
+		return resource;
 	}
 
 	@DeleteMapping("/users/{id}")
